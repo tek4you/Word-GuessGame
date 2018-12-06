@@ -6,19 +6,17 @@
     <title>Word Guess Game</title>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-
-    <!-- <script defer src="assets/javascript/main.js"></script> -->
+    <script defer src="assets/javascript/game.js"></script>
 </head>
 
-<body>
-    <h1>Open the console to see the magic!</h1>
+<body class = "bg">
 
-    <h1>Let's Play Hangman!
+       
+        <h1 id="gameTitle">Let's Play Hangman! <br> Guess the Name of a Fruit.  <br> Press any Letter to Begin</h1>
+  
+        <div id="winWordDiv">winWord here</div>
 
-    <div id="winWordDiv">winWord here</div>
-
-    <div id="usedLetterDiv">used Letter here</div>
-    
+        <p id="usedLetterDiv">used Letter here</p>
     
     <script>
         // Create array of possible answers
@@ -33,11 +31,6 @@
 
             // Select the winning word - randomly choose a winning word from the array
             var winningWord = arrayOfWords[Math.floor((Math.random() * arrayOfWords.length) + 1)];
-            
-            // var playAgain = prompt("Would you like to play hangman (Y/N)");
-            // if playAgain === "y" // start game over
-            // else console.log("Game Over");
-            //  alert("Press a key to guess a letter")
 
             console.log(winningWord);
 
@@ -49,58 +42,10 @@
             allowedGuesses: allowedGuesses
             });
 
-            
-            //Check if current userInput has already been tried
-
-            function alreadyPressed(pressedKey, wasPressedArr) {
-                    var alreadyUsed = false;
-                    for (var i = 0; i < wasPressedArr.length; i++) {
-                        if (pressedKey == wasPressedArr[i]) {
-                            var alreadyUsed = true;
-                         console.log({
-                             alreadyUsed: alreadyUsed  });
-                        }
-                    }
-                        return alreadyUsed;
-            }
-            
-            //Check if current userInput is in the winning word
-            function checkWinWord(pressedKey, winWordLettersArr) {
-                var inWinWord = false;
-            
-                for (var i = 0; i < winWordLettersArr.length; i++) {
-                    if (pressedKey === winWordLettersArr[i]) {
-
-                        inWinWord = true;
-                    }
-                }
-                return inWinWord ;
-            }    
-            
-            //Tally the number of correctly guessed letters
-
-            function tally(pressedKey, winWordLettersArr) {
-               var tallyMatches = 0;
-                for (var i = 0; i < winWordLettersArr.length; i++) {
-                    if (pressedKey === winWordLettersArr[i]) {
-                    tallyMatches++;
-
-                    console.log ({
-                    tallyMatches: tallyMatches
-                    });
-
-                    } 
-                }
-                return tallyMatches;
-            }
-
-
-
 // capture pressed key
 
     document.onkeyup = function(whathappened) {
-            // console.log(whathappened.key);
-
+        
             var userInput = whathappened.key;
             console.log(userInput);
             
@@ -116,17 +61,26 @@
 
                 totalMatchedLetters = (totalMatchedLetters +  (tally(userInput, winWordLetters)));
                     
-                console.log ({
-                    totalMatchedLetters: totalMatchedLetters,
-                                 
+                console.log ({ totalMatchedLetters: totalMatchedLetters                     
                     });
+
                //show letters on hangman
             }
             else if (repeat == false) {console.log("nope!");
                 //show letter in incorrect tries 
                 numOfGuesses++;
-                }               
+                var targetDiv = document.getElementById("usedLetterDiv");
 
+                var newDiv = document.createElement("p");
+        
+                newDiv.textContent = (userInput);
+
+                targetDiv.appendChild(newDiv);
+                
+                // We then apply that CSS to our newDiv.
+
+                newDiv.setAttribute("class", "letters");
+                }               
            
             if (numOfGuesses == allowedGuesses) {
                 alert("Game Over!");
@@ -134,23 +88,6 @@
             else if (winWordLetters.length == totalMatchedLetters) {
                 alert("You win!");
             }
-
-
-            //HTML display start here
-   var targetDiv = document.getElementById("winWordDiv");
-
-    targetDiv.textContent = (winWordLetters);
-
-    var newDiv = document.createElement("div");
-      newDiv.textContent = "A pleasure to meet you!";
-
-      targetDiv.appendChild(newDiv);
-
-      // We then apply that CSS to our newDiv.
-
-    //   newDiv.setAttribute("class", "fancy");
-
-
     }
         
     </script>
